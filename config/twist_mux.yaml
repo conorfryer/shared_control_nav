@@ -1,0 +1,9 @@
+twist_mux:
+  ros__parameters:
+    use_stamped: true
+
+    topics:
+      shared:
+        topic: /shared_cmd_vel
+        timeout: 0.5
+        priority: 50
