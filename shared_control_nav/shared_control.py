@@ -183,17 +183,25 @@ class SharedControlNode(Node):
             if cmd.twist.linear.x != 0.0:
                 cmd.twist.linear.x = 0.0
                 cmd.twist.angular.z = 0.0
+                self.last_teleop_cmd = self.make_stop_cmd()
+                self.reset_teleop()
 
             self.publish_status('safety', 'Safety: waiting for scan')
             return cmd
 
         if self.front_distance < stop_distance and cmd.twist.linear.x > 0.0:
             cmd.twist.linear.x = 0.0
+            self.last_teleop_cmd = self.make_stop_cmd()
+            self.reset_teleop()
+
             self.publish_status('safety', 'Safety: forward blocked')
             return cmd
         
         if self.rear_distance < stop_distance and cmd.twist.linear.x < 0.0:
             cmd.twist.linear.x = 0.0
+            self.last_teleop_cmd = self.make_stop_cmd()
+            self.reset_teleop()
+
             self.publish_status('safety', 'Safety: rear blocked')
             return cmd
             
